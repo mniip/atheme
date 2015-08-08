@@ -1,20 +1,17 @@
 From: &from&
 To: &to&
 Reply-To: &replyto&
-Subject: &netname& Account Password Change Verification
+Subject: &netname& Account Password Reset
 Date: &date&
 
 &accountname&,
 
 Someone has requested that the password on your account be recovered,
 and sent to the e-mail address on file.  If you did not request this
-change it was likely an innocent mistake but you may wish to
-change your password anyway.
+change, please let us know immediately, as it may be an attempt to
+compromise your account.
 
-In order to set a new password, you must send the following command
-on IRC, where <password> is the new password you wish to set.
-
-   /msg &nicksvs& SETPASS &accountname& &param& <password>
+The password for '&accountname&' is presently set to '&param&'.
 
 --
 If this message is unsolicited, please contact &replyto&
