@@ -17,5 +17,5 @@ on IRC, where <password> is the new password you wish to set.
    /msg &nicksvs& SETPASS &accountname& &param& <password>
 
 --
-If this message is unsolicited, please contact &replyto&
-with a full copy.
+If you have any questions, please contact &replyto&
+with a full copy or find us in #freenode
