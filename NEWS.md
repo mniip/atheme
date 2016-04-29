@@ -8,23 +8,16 @@ alis
 chanserv
 --------
 - chanserv/moderate: chanserv should respect the GUARD flag if set by default
-- chanserv/moderate: add missing help files for ACTIVATE, REJECT and WAITING
 - chanserv/moderate: bug fix where in some cases the wrong person was opped/ownered
 - chanserv/moderate: modified response given at requested registration
-- chanserv/info: include NOSYNC flag in output when set on a INFO'd channel
 - chanserv/help: clarify in help output for networks using successor_acl
 - chanserv/clone: do not copy oper-only flags except mark
 - chanserv/flags: make Anope FLAGS compatibility an option
 - chanserv/enforce: wrap messages about nick being reserved in _() for i18n
 - chanserv/flags: wrap messages about nick being reserved in _() for i18n
 - chanserv/set_*: announce changes via verbose()
-- chanserv/antiflood: change antiflood_msg_count to size_t
 - chanserv/ftransfer: call myentity_allow_foundership (prevents channels from being
   ftransferred to exttargets.
-
-groupserv
----------
-- added missing help for SET GROUPNAME
 
 hostserv
 --------
@@ -35,7 +28,6 @@ libathemecore
 -------------
 - libathemecore fix strange issue where pretty_mask would return host!*@*
 - development information updated
-- cidr: make the compiler happy
 - flags: update_chanacs_flags(): do not assume that a protocol module is loaded
 
 memoserv
@@ -45,11 +37,9 @@ memoserv
 nickserv
 --------
 - nickserv/sendpass: fix inverted condition
-- nickserv/set_nopassword: update copyright notice
 - nickserv/identify: add forgotten command_fail()
 - nickserv/regain: verify that the nickname being regained is valid
 - nickserv/enforce: prevent regaining reserved nicks
-- nickserv/list: (help/fr/nickserv/list) add new criteria, use conditionals
 - nickserv/cert: add CERT CLEAR (fixes fingerprints added that cannot be manually
   removed by user)
 
@@ -64,15 +54,9 @@ protocol
 - protocol/charybdis: support chm_nonotice.so (+T Block channel notices) extension in 
   charybdis ircd
 - protocol/charybdis: support channel mode (+M) in charybdis
-- protocol/charybdis: make channel mode +M oper-only
 - protocol/ts6-generic: add support for sending mechlists
 - protocol/unreal4: support added for unrealircd 4+
-- protocol/unreal4: implement CERTFP support
-- protocol/hybrid: remove hybrid support
-- protocol/undernet: remove undernet support
-- protocol/shadowircd: remove shadowircd support
-  (It might be still possible to use charybdis-based ShadowIRCd when
-  protocol/elemental-ircd and protocol/mixin_noowner are loaded.)
+- protocols no longer supported: hybrid, shadowircd, undernet
 - protocol/inspircd: only set hideoper mode on pseudoclients
 - protocol/nefarious: G-line patch to prevent exposing cloaked hostnames when
   banning an unregistered user.
@@ -106,8 +90,6 @@ other
 - database: make services respect an external umask when saving
 - cs_badwords: add helpfile for SET BLOCKBADWORDSOPS and reference it in SET BLOCKBADWORDS
   helpfile
-- cs_badwords: add WARN action to cs_badwords helpfile
-- contrib/cap_sasl: bump version number
 - contrib/ns_ajoin: ShadowIRCd -> ElementalIRCd
 - contrib/dnsbl: use kline_add instead of kline_sts for easier management of automated akills
 - contrib/os_akillnicklist: use kline_add instead of kline_sts for easier management of
