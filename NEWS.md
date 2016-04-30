@@ -1,43 +1,29 @@
 Atheme Services 7.2.7 Release Notes
 =================================
 
-alis
-----
-- alis/convert left over svn $Revision$ string
-
 chanserv
 --------
-- chanserv/moderate: chanserv should respect the GUARD flag if set by default
-- chanserv/moderate: bug fix where in some cases the wrong person was opped/ownered
-- chanserv/moderate: modified response given at requested registration
-- chanserv/help: clarify in help output for networks using successor_acl
+- chanserv/moderate: fix various issues
 - chanserv/clone: do not copy oper-only flags except mark
 - chanserv/flags: make Anope FLAGS compatibility an option
-- chanserv/enforce: wrap messages about nick being reserved in _() for i18n
-- chanserv/flags: wrap messages about nick being reserved in _() for i18n
-- chanserv/set_*: announce changes via verbose()
-- chanserv/ftransfer: call myentity_allow_foundership (prevents channels from being
-  ftransferred to exttargets.
+- chanserv/set\_\*: announce changes via verbose()
+- chanserv/ftransfer: call myentity\_allow\_foundership (prevents channels from being
+  forcefully transferred to targets that shouldn't be founders).
 
 hostserv
 --------
-- hostserv/drop: allows users (if enabled) to drop their assigned or requested vhosts
-  without Staff intervention. 
+- hostserv/drop: allows users to drop their assigned or requested vhosts
+  without staff intervention.
 
 libathemecore
 -------------
-- libathemecore fix strange issue where pretty_mask would return host!*@*
-- development information updated
-- flags: update_chanacs_flags(): do not assume that a protocol module is loaded
-
-memoserv
---------
-- update memoserv emails to remove duplicate 'from'
+- libathemecore fix strange issue where pretty\_mask would return host!*@*
+- flags: update\_chanacs\_flags(): do not assume that a protocol module is loaded
 
 nickserv
 --------
 - nickserv/sendpass: fix inverted condition
-- nickserv/identify: add forgotten command_fail()
+- nickserv/identify: add forgotten command\_fail()
 - nickserv/regain: verify that the nickname being regained is valid
 - nickserv/enforce: prevent regaining reserved nicks
 - nickserv/cert: add CERT CLEAR (fixes fingerprints added that cannot be manually
@@ -45,18 +31,17 @@ nickserv
 
 operserv
 --------
-- clearchan/akill: use kline_add instead of kline_sts for easier management of automated
+- clearchan/akill: use kline\_add instead of kline\_sts for easier management of automated
   akills
 - akill: add akill settime to LIST output
 
 protocol
 --------
-- protocol/charybdis: support chm_nonotice.so (+T Block channel notices) extension in 
-  charybdis ircd
-- protocol/charybdis: support channel mode (+M) in charybdis
+- protocol/charybdis: add support for channel modes +T and +M
 - protocol/ts6-generic: add support for sending mechlists
-- protocol/unreal4: support added for unrealircd 4+
-- protocols no longer supported: hybrid, shadowircd, undernet
+- protocol: add support for unreal 4
+- protocol: remove support for hybrid, shadowircd, undernet
+- protocol: updated modules (including contrib) to work with the removed support for some IRCds
 - protocol/inspircd: only set hideoper mode on pseudoclients
 - protocol/nefarious: G-line patch to prevent exposing cloaked hostnames when
   banning an unregistered user.
@@ -64,7 +49,7 @@ protocol
 saslserv
 --------
 - try to include source host in SASL failure message
-- clean up the 'if' mess in sasl_input()
+- clean up the 'if' mess in sasl\_input()
 - log mechanism used by authenticated clients
 - properly subclass sourceinfo objects
 - ensure our vtable isn't stuffed on the stack
@@ -77,32 +62,19 @@ code
 ----
 - libmowgli-2: update submodule to a more recent commit
 - gitmodules: remove libunwind leftovers
-- gitmodules: change URLs to https://
-- automake: fix typo in compiler flag
 - move away from BSD data types
 - move the vendor field to a compile time macro
 
 other
 -----
-- INSTALL doc: formatting changes
-- add a user_can_login(si, mu) hook to deny all authentication attempts from a specific 
+- documentation: reformat INSTALL
+- help: add missing documentation for various commands
+- i18n: mark several strings as translatable
+- add a user\_can\_login(si, mu) hook to deny all authentication attempts from a specific
   user
 - database: make services respect an external umask when saving
-- cs_badwords: add helpfile for SET BLOCKBADWORDSOPS and reference it in SET BLOCKBADWORDS
-  helpfile
-- contrib/ns_ajoin: ShadowIRCd -> ElementalIRCd
-- contrib/dnsbl: use kline_add instead of kline_sts for easier management of automated akills
-- contrib/os_akillnicklist: use kline_add instead of kline_sts for easier management of
-  automated akills
-- contrib/os_defcon: use kline_add instead of kline_sts for easier management of automated
-  akills
-- contrib/os_klinechan: use kline_add instead of kline_sts for easier management of automated
-  akills
-- contrib: move vendor field to the macro
-- contrib/os_trace: fix version string
-- call user_can_login hooks when logging in via certfp too
-- GIT-Access doc, README: upgrade Github URLs
-- atheme.conf.example updated to correct typo
+- contrib: in some places, use kline\_add instead of kline\_sts
+- call user\_can\_login hooks when logging in via certfp too
 
 As of late February 2016, Atheme is being brought back to live development (managed 
 and maintained by a few of the fork maintainers). We look forward to bringing Atheme
