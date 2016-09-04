@@ -96,7 +96,7 @@ static void can_login(hook_user_login_check_t *c)
 	sasl_sourceinfo_t *ssi;
 	char const *log_target = service_get_log_target(c->si->service);
 
-	if(c->si->v && !strcmp(c->si->v->description, "SASL"))
+	if(c->si->service == service_find("saslserv"))
 	{
 		ssi = (sasl_sourceinfo_t *)c->si;
 		if((ssi->sess->host && is_restricted_host(ssi->sess->host)) || (ssi->sess->ip && is_restricted_host(ssi->sess->ip)))
