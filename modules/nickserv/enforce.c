@@ -176,6 +176,7 @@ static void ns_cmd_release(sourceinfo_t *si, int parc, char *parv[])
 	user_t *u;
 	mowgli_node_t *n, *tn;
 	enforce_timeout_t *timeout;
+	hook_user_login_check_t req;
 
 	/* Absolutely do not do anything like this if nicks
 	 * are not considered owned */
@@ -214,6 +215,19 @@ static void ns_cmd_release(sourceinfo_t *si, int parc, char *parv[])
 		command_fail(si, fault_authfail, "You cannot release \2%s\2 because the account has been frozen.", target);
 		logcommand(si, CMDLOG_DO, "failed RELEASE \2%s\2 (frozen)", target);
 		return;
+	}
+	if (password)
+	{
+		req.si = si;
+		req.mu = mn->owner;
+		req.allowed = true;
+		hook_call_user_can_login(&req);
+		if (!req.allowed)
+		{
+			command_fail(si, fault_authfail, "You cannot identify to \2%s\2 because the server configuration disallows it.", entity(mn->owner)->name);
+			logcommand(si, CMDLOG_DO, "failed RELEASE \2%s\2 (denied by hook)", target);
+			return;
+		}
 	}
 	if ((si->smu == mn->owner) || verify_password(mn->owner, password))
 	{
@@ -281,6 +295,7 @@ static void ns_cmd_regain(sourceinfo_t *si, int parc, char *parv[])
 	mowgli_node_t *n, *tn;
 	enforce_timeout_t *timeout;
 	char lau[BUFSIZE];
+	hook_user_login_check_t req;
 
 	/* Absolutely do not do anything like this if nicks
 	 * are not considered owned */
@@ -318,6 +333,19 @@ static void ns_cmd_regain(sourceinfo_t *si, int parc, char *parv[])
 		command_fail(si, fault_authfail, "You cannot regain \2%s\2 because the account has been frozen.", target);
 		logcommand(si, CMDLOG_DO, "failed REGAIN \2%s\2 (frozen)", target);
 		return;
+	}
+	if (password)
+	{
+		req.si = si;
+		req.mu = mn->owner;
+		req.allowed = true;
+		hook_call_user_can_login(&req);
+		if (!req.allowed)
+		{
+			command_fail(si, fault_authfail, "You cannot identify to \2%s\2 because the server configuration disallows it.", entity(mn->owner)->name);
+			logcommand(si, CMDLOG_DO, "failed REGAIN \2%s\2 (denied by hook)", target);
+			return;
+		}
 	}
 	if ((si->smu == mn->owner) || verify_password(mn->owner, password))
 	{
@@ -636,6 +664,7 @@ void _modinit(module_t *m)
 	hook_add_nick_can_register(check_registration);
 	hook_add_event("nick_enforce");
 	hook_add_nick_enforce(check_enforce);
+	hook_add_event("user_can_login");
 }
 
 void _moddeinit(module_unload_intent_t intent)

@@ -25,6 +25,7 @@ void _modinit(module_t *m)
 {
 	service_named_bind_command("nickserv", &ns_drop);
 	service_named_bind_command("nickserv", &ns_fdrop);
+	hook_add_event("user_can_login");
 }
 
 void _moddeinit(module_unload_intent_t intent)
@@ -42,6 +43,7 @@ static void ns_cmd_drop(sourceinfo_t *si, int parc, char *parv[])
 	char *key = parv[2];
 	char fullcmd[512];
 	char key0[80], key1[80];
+	hook_user_login_check_t req;
 
 	if (!acc || !pass)
 	{
@@ -69,6 +71,20 @@ static void ns_cmd_drop(sourceinfo_t *si, int parc, char *parv[])
 	{
 		command_fail(si, fault_authfail, nicksvs.no_nick_ownership ? "You cannot login as \2%s\2 because the account has been frozen." : "You cannot identify to \2%s\2 because the nickname has been frozen.", entity(mu)->name);
 		return;
+	}
+
+	if (si->su->myuser != mu) // skip check if they are already logged in as the target
+	{
+		req.si = si;
+		req.mu = mu;
+		req.allowed = true;
+		hook_call_user_can_login(&req);
+		if (!req.allowed)
+		{
+			command_fail(si, fault_authfail, "You cannot identify to \2%s\2 because the server configuration disallows it.", entity(mu)->name);
+			logcommand(si, CMDLOG_DO, "failed DROP \2%s\2 (denied by hook)", acc);
+			return;
+		}
 	}
 
 	if (!verify_password(mu, pass))

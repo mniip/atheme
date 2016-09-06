@@ -22,6 +22,7 @@ command_t ns_ghost = { "GHOST", N_("Reclaims use of a nickname."), AC_NONE, 2, n
 void _modinit(module_t *m)
 {
 	service_named_bind_command("nickserv", &ns_ghost);
+	hook_add_event("user_can_login");
 }
 
 void _moddeinit(module_unload_intent_t intent)
@@ -36,6 +37,7 @@ void ns_cmd_ghost(sourceinfo_t *si, int parc, char *parv[])
 	char *password = parv[1];
 	user_t *target_u;
 	mynick_t *mn;
+	hook_user_login_check_t req;
 
 	if (!target)
 	{
@@ -75,7 +77,19 @@ void ns_cmd_ghost(sourceinfo_t *si, int parc, char *parv[])
 		logcommand(si, CMDLOG_DO, "failed GHOST \2%s\2 (frozen)", target);
 		return;
 	}
-
+	if (password)
+	{
+		req.si = si;
+		req.mu = mu;
+		req.allowed = true;
+		hook_call_user_can_login(&req);
+		if (!req.allowed)
+		{
+			command_fail(si, fault_authfail, "You cannot identify to \2%s\2 because the server configuration disallows it.", entity(mu)->name);
+			logcommand(si, CMDLOG_DO, "failed GHOST \2%s\2 (denied by hook)", target);
+			return;
+		}
+	}
 	if ((target_u->myuser && target_u->myuser == si->smu) || /* they're identified under our account */
 			(!nicksvs.no_nick_ownership && mn && mu == si->smu) || /* we're identified under their nick's account */
 			(!nicksvs.no_nick_ownership && password && mn && verify_password(mu, password))) /* we have their nick's password */
